@@ -1,0 +1,23 @@
+.scene {
+  display: grid;
+  background: rgb(219, 219, 219);
+  color: white;
+  width: 400px;
+  height: 400px;
+}
+
+.block {
+  background: yellow;
+  border-radius: 5px;
+  box-shadow: black 0 0 10px;
+}
+
+.fruit {
+  background: red;
+  border: rgb(141, 0, 0) solid 1px;
+  border-radius: 50%;
+  margin: 20%;
+  box-shadow: black 0 0 5px;
+  color: black;
+  font-weight: bold;
+}

@@ -1,0 +1,32 @@
+<div 
+  class="scene"
+  [style.grid-template-columns]="'repeat('+columns+', 1fr)'"
+  [style.grid-template-rows]="'repeat('+rows+', 1fr)'"
+  (keydown)="handleKeyDown($event)"
+  tabindex="0"
+>
+  <div 
+    *ngFor="let block of blocks" 
+    class="block" 
+    [style.grid-area]="getBlockStyle(block)"
+  ></div>
+
+  <div 
+    *ngFor="let fruit of fruits" 
+    class="fruit" 
+    [style.grid-area]="getBlockStyle(fruit)"
+  ></div>
+</div>
+
+<button (click)="initGame()">New Game</button>
+
+<div>
+  fruits:
+  {{fruitsDebug}}
+</div>
+<div>
+  blocks:
+  {{blocksDebug}}
+</div>
+
+<div>{{debug}}</div>
