@@ -1,44 +1,40 @@
-<header>
-  <h1>
-    Score: {{score}}
-  </h1>
-</header>
-<div 
-  [ngClass]="{end: gameState === 'END'}"
-  class="scene"
-  [style.grid-template-columns]="'repeat('+columns+', 1fr)'"
-  [style.grid-template-rows]="'repeat('+rows+', 1fr)'"
-  (keydown)="handleKeyDown($event)"
-  tabindex="0"
->
-  <div 
-    *ngFor="let block of blocks" 
-    class="block"
-    [ngClass]="{dead: gameState === 'END'}"
-    [style.translate]="'calc(100% * ' + (block.column - 1) + ') calc(100% * ' + (block.row - 1) + ')'"
-  ></div>
+<mat-card class="card">
+  <mat-card-header>
+    <h1>
+      Score: {{score}}
+    </h1>
+  </mat-card-header>
+  <mat-card-content>
+    <div 
+      [ngClass]="{end: gameState === 'END'}"
+      class="scene"
+      [style.grid-template-columns]="'repeat('+columns+', 1fr)'"
+      [style.grid-template-rows]="'repeat('+rows+', 1fr)'"
+      (keydown)="handleKeyDown($event)"
+      tabindex="0"
+    >
+      <div 
+        *ngFor="let block of blocks" 
+        class="block"
+        [ngClass]="{dead: gameState === 'END'}"
+        [style.translate]="'calc(100% * ' + (block.column - 1) + ') calc(100% * ' + (block.row - 1) + ')'"
+      ></div>
 
-  <div 
-    *ngFor="let fruit of fruits" 
-    class="fruit" 
-    [style.grid-area]="getBlockStyle(fruit)"
-  ></div>
+      <div 
+        *ngFor="let fruit of fruits" 
+        class="fruit" 
+        [style.grid-area]="getBlockStyle(fruit)"
+      ></div>
+      
+      <div *ngIf="gameState == 'END'" class="wasted">
+        <div>WASTED</div>
+        <div class="endScore">Score: {{score}}</div>
+      </div>
+    </div>
+  </mat-card-content>
   
-  <div *ngIf="gameState == 'END'" class="wasted">
-    <div>WASTED</div>
-    <div class="endScore">Score: {{score}}</div>
-  </div>
-</div>
+  <mat-card-actions>
+    <button mat-raised-button (click)="initGame()">New Game</button>
+  </mat-card-actions>
+</mat-card>
 
-<button (click)="initGame()">New Game</button>
-
-<div>
-  fruits:
-  {{fruitsDebug}}
-</div>
-<div>
-  blocks:
-  {{blocksDebug}}
-</div>
-
-<div>{{debug}}</div>
