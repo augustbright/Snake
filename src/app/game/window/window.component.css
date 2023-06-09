@@ -5,6 +5,7 @@
   color: white;
   width: 400px;
   height: 400px;
+  margin: 0 auto;
 }
 
 .end {
@@ -26,6 +27,7 @@
   font-size: 20pt;
   font-weight: normal;
   color: red;
+  margin-top: 20px;
 }
 
 .block {
