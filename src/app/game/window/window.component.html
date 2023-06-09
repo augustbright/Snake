@@ -1,7 +1,10 @@
-<div>
-  Score: {{score}}
-</div>
+<header>
+  <h1>
+    Score: {{score}}
+  </h1>
+</header>
 <div 
+  [ngClass]="{end: gameState === 'END'}"
   class="scene"
   [style.grid-template-columns]="'repeat('+columns+', 1fr)'"
   [style.grid-template-rows]="'repeat('+rows+', 1fr)'"
@@ -10,8 +13,9 @@
 >
   <div 
     *ngFor="let block of blocks" 
-    class="block" 
-    [style.grid-area]="getBlockStyle(block)"
+    class="block"
+    [ngClass]="{dead: gameState === 'END'}"
+    [style.translate]="'calc(100% * ' + (block.column - 1) + ') calc(100% * ' + (block.row - 1) + ')'"
   ></div>
 
   <div 
@@ -19,6 +23,11 @@
     class="fruit" 
     [style.grid-area]="getBlockStyle(fruit)"
   ></div>
+  
+  <div *ngIf="gameState == 'END'" class="wasted">
+    <div>WASTED</div>
+    <div class="endScore">Score: {{score}}</div>
+  </div>
 </div>
 
 <button (click)="initGame()">New Game</button>

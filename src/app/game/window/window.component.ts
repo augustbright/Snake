@@ -160,9 +160,9 @@ export class WindowComponent implements OnInit {
 
   checkBorderCollision() {
     if (
-      this.blocks[0].column < 0 ||
+      this.blocks[0].column < 1 ||
       this.blocks[0].column > this.columns ||
-      this.blocks[0].row < 0 ||
+      this.blocks[0].row < 1 ||
       this.blocks[0].row > this.rows
     ) {
       this.endGame();
