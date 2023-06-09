@@ -1,4 +1,5 @@
 .scene {
+  position: relative;
   display: grid;
   background: rgb(219, 219, 219);
   color: white;
@@ -6,10 +7,37 @@
   height: 400px;
 }
 
+.end {
+  background: rgb(54, 54, 54) !important;
+  transition: background 3s linear;
+}
+
+.wasted {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 50%;
+  font-size: 40pt;
+  font-weight: bold;
+  text-shadow: rgb(124, 124, 124) 0 0 10px;
+}
+
+.wasted .endScore {
+  font-size: 20pt;
+  font-weight: normal;
+  color: red;
+}
+
 .block {
   background: yellow;
   border-radius: 5px;
-  box-shadow: black 0 0 10px;
+  grid-area: 1/1/2/2;
+  transition: translate 0.2s linear;
+}
+
+.dead {
+  background: rgb(107, 84, 84) !important;
+  transition: translate 3s linear, background 3s linear;
 }
 
 .fruit {
