@@ -9,7 +9,6 @@
 .block {
   background: yellow;
   border-radius: 5px;
-  box-shadow: black 0 0 10px;
 }
 
 .fruit {

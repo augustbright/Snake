@@ -18,14 +18,17 @@ type TFruit = {
 })
 export class WindowComponent implements OnInit {
   tickInterval = 200;
-  rows: number = 20;
-  columns: number = 20;
+  rows: number = 10;
+  columns: number = 10;
   blocks: Array<TBlock> = [];
   fruits: Array<TFruit> = [];
 
   speedRow: number = 0;
   speedColumn: number = 0;
   blockReserve: number = 0;
+  score: number = 0;
+
+  gameState: 'PLAY' | 'END' = 'PLAY';
 
   debug: string = '';
 
@@ -48,41 +51,51 @@ export class WindowComponent implements OnInit {
 
     this.speedColumn = 0;
     this.speedRow = 0;
+
+    this.gameState = 'PLAY';
+
+    this.score = 0;
   }
 
   handleKeyDown(event: KeyboardEvent) {
     this.debug = event.key;
 
-    if (event.key === 'ArrowUp' && this.speedRow === 0) {
-      this.speedColumn = 0;
-      this.speedRow = -1;
-      this.initTick();
-    }
-    if (event.key === 'ArrowDown' && this.speedRow === 0) {
-      this.speedColumn = 0;
-      this.speedRow = 1;
-      this.initTick();
-    }
-    if (event.key === 'ArrowLeft' && this.speedColumn === 0) {
-      this.speedColumn = -1;
-      this.speedRow = 0;
-      this.initTick();
-    }
-    if (event.key === 'ArrowRight' && this.speedColumn === 0) {
-      this.speedColumn = 1;
-      this.speedRow = 0;
-      this.initTick();
+    if (this.gameState === 'PLAY') {
+      if (event.key === 'ArrowUp' && this.speedRow === 0) {
+        this.speedColumn = 0;
+        this.speedRow = -1;
+        this.initTick();
+      }
+      if (event.key === 'ArrowDown' && this.speedRow === 0) {
+        this.speedColumn = 0;
+        this.speedRow = 1;
+        this.initTick();
+      }
+      if (event.key === 'ArrowLeft' && this.speedColumn === 0) {
+        this.speedColumn = -1;
+        this.speedRow = 0;
+        this.initTick();
+      }
+      if (event.key === 'ArrowRight' && this.speedColumn === 0) {
+        this.speedColumn = 1;
+        this.speedRow = 0;
+        this.initTick();
+      }
     }
   }
 
   initTick() {
+    this.stopTick();
+    this.tickSubscription = timer(0, this.tickInterval).subscribe(() => {
+      this.move();
+    });
+  }
+
+  stopTick() {
     if (this.tickSubscription) {
       this.tickSubscription.unsubscribe();
       this.tickSubscription = null;
     }
-    this.tickSubscription = timer(0, this.tickInterval).subscribe(() => {
-      this.move();
-    });
   }
 
   move() {
@@ -105,6 +118,8 @@ export class WindowComponent implements OnInit {
     }
 
     this.checkFruitCollision();
+    this.checkBodyCollision();
+    this.checkBorderCollision();
   }
 
   addFruit() {
@@ -128,10 +143,36 @@ export class WindowComponent implements OnInit {
       this.blockReserve += 1;
       this.fruits.splice(fruitIndex, 1);
       this.addFruit();
+      this.score += this.blocks.length;
     }
   }
 
-  checkBodyCollision() {}
+  checkBodyCollision() {
+    for (let i = 1; i < this.blocks.length; i++) {
+      if (
+        this.blocks[i].row === this.blocks[0].row &&
+        this.blocks[i].column === this.blocks[0].column
+      ) {
+        this.endGame();
+      }
+    }
+  }
+
+  checkBorderCollision() {
+    if (
+      this.blocks[0].column < 0 ||
+      this.blocks[0].column > this.columns ||
+      this.blocks[0].row < 0 ||
+      this.blocks[0].row > this.rows
+    ) {
+      this.endGame();
+    }
+  }
+
+  endGame() {
+    this.stopTick();
+    this.gameState = 'END';
+  }
 
   getRandomCell() {
     return {
